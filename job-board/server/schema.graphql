@@ -1,0 +1,46 @@
+type JobSubList {
+    items: [Job!]!
+    totalCount: Int!
+}
+
+type Query {
+    jobs(limit: Int, offset: Int): JobSubList
+    job(id: ID!): Job
+    company(id: ID!): Company
+}
+
+"""
+Represents a job ad posted to our board
+"""
+type Job {
+    id: ID!
+    title: String!
+    description: String
+    """ This __date__ when job was published, in ISO-8601 format(`YYYY-MM-DD`) """
+    date: String!
+    company: Company
+}
+
+type Company {
+    id: ID!
+    name: String!
+    description: String
+    jobs: [Job!]
+}
+
+input CreateJobInput {
+    title: String!
+    description: String
+}
+
+input UpdateJobInput {
+    id: ID!
+    title: String!
+    description: String
+}
+
+type Mutation {
+    createJob(input: CreateJobInput!): Job
+    deleteJob(id: ID!): Job
+    updateJob(input: UpdateJobInput!): Job
+}
